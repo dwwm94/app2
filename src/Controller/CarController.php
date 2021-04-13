@@ -5,6 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Car;
+use App\Model\Driver;
 
 class CarController extends AbstractController
 {
@@ -25,11 +27,15 @@ class CarController extends AbstractController
      */
     public function accueil(): Response
     {
-        $cars = [
-            ["id"=>001, "marque"=>"Peugeot", "modele"=>5008, "pays"=>"France"],
-            ["id"=>002, "marque"=>"Renault", "modele"=>"Megane", "pays"=>"Suisse"],
-            ["id"=>003, "marque"=>"Fiat", "modele"=>"500", "pays"=>"Italie"]
-        ];
+
+        // $cars = [
+        //     ["id"=>001, "marque"=>"Peugeot", "modele"=>5008, "pays"=>"France"],
+        //     ["id"=>002, "marque"=>"Renault", "modele"=>"Megane", "pays"=>"Suisse"],
+        //     ["id"=>003, "marque"=>"Fiat", "modele"=>"500", "pays"=>"Italie"]
+        // ];
+        $driver = new Driver();
+        $cars = $driver->getCars();
+        
         return $this->render('car/accueil.html.twig', [
            "tabCars" => $cars
         ]);
