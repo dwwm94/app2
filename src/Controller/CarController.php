@@ -93,4 +93,44 @@ class CarController extends AbstractController
 
         return new Response("Voitures ajoutées!!!");
     }
+
+    /**
+     * @Route("/list", name="app_list")
+     */
+    public function getAutos(){
+
+        $repo = $this->getDoctrine()->getRepository(Auto::class);
+        $cars = $repo->findAll();
+        //dd($cars);
+        return $this->render("car/list.html.twig", ["tabCars" => $cars]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name="app_edit")
+     */
+    public function editAuo($id){
+        $car = $this->getDoctrine()
+                    ->getRepository(Auto::class)
+                    ->find($id);
+        dd($car);
+      return;  
+    }
+
+    /**
+     * @Route("/delete/{id}", name="app_delete")
+     */
+    public function deleteAuto($id){
+        $em = $this->getDoctrine()->getManager();
+        $car = $em->getRepository(Auto::class)->find($id);
+
+        if(!$car){
+            throw $this->createNotFoundException(
+                'Aucune voiture ne correspond à votre demande'
+            );
+        }
+        $em->remove($car);
+        $em->flush();
+
+        return $this->redirectToRoute("app_list");  
+      }
 }
