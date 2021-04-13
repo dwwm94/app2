@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Auto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,5 +63,34 @@ class CarController extends AbstractController
         return $this->render('car/contact.html.twig', [
             
         ]);
+    }
+
+    /**
+     * @Route("/add", name="app_add")
+     */
+    public function add(){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $auto1 = new Auto();
+        $auto1->setMarque("Peugeot");
+        $auto1->setModele("5008");
+        $auto1->setPays("France");
+        $auto1->setPrix(2200);
+        $auto1->setDescription("Peugeot 5008 est une voiture résistante");
+
+        $auto2 = new Auto();
+        $auto2->setMarque("Renault");
+        $auto2->setModele("Megane");
+        $auto2->setPays("Suisse");
+        $auto2->setPrix(5400);
+        $auto2->setDescription("Mégane est une belle voiture.");
+       
+        $em->persist($auto1);
+        $em->persist($auto2);
+
+        $em->flush();
+
+        return new Response("Voitures ajoutées!!!");
     }
 }
