@@ -23,6 +23,7 @@ class AdminController extends AbstractController
         $car = new Auto();
         $form = $this->createForm(AutoType::class, $car);
         $form->handleRequest($request);
+        
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($car);
