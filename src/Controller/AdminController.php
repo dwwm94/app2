@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Auto;
+use App\Form\AutoType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,30 +18,21 @@ class AdminController extends AbstractController
     /**
      * @Route("/add", name="app_add")
      */
-    public function add(){
+    public function add(Request $request){
 
-        $em = $this->getDoctrine()->getManager();
+        $car = new Auto();
+        $form = $this->createForm(AutoType::class, $car);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($car);
+            $em->flush();
 
-        $auto1 = new Auto();
-        $auto1->setMarque("Peugeot");
-        $auto1->setModele("5008");
-        $auto1->setPays("France");
-        $auto1->setPrix(2200);
-        $auto1->setDescription("Peugeot 5008 est une voiture résistante");
+            return $this->redirectToRoute("app_list");
+        }
 
-        $auto2 = new Auto();
-        $auto2->setMarque("Renault");
-        $auto2->setModele("Megane");
-        $auto2->setPays("Suisse");
-        $auto2->setPrix(5400);
-        $auto2->setDescription("Mégane est une belle voiture.");
-       
-        $em->persist($auto1);
-        $em->persist($auto2);
-
-        $em->flush();
-
-        return new Response("Voitures ajoutées!!!");
+       return $this->render('admin/add.html.twig', [
+            'form'=> $form->createView() ]);
     }
 
     /**
@@ -50,13 +43,13 @@ class AdminController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Auto::class);
         $cars = $repo->findAll();
         //dd($cars);
-        return $this->render("car/list.html.twig", ["tabCars" => $cars]);
+        return $this->render("admin/list.html.twig", ["tabCars" => $cars]);
     }
 
     /**
      * @Route("/edit/{id}", name="app_edit")
      */
-    public function editAuto(Auto $car, Request $request){
+    public function editAuto(Auto $car, Request $request, EntityManagerInterface $em){
         // $car = $this->getDoctrine()
         //             ->getRepository(Auto::class)
         //             ->find($id);
@@ -69,9 +62,17 @@ class AdminController extends AbstractController
                 ->add('description', TextareaType::class)
                 //->add('Modifier', SubmitType::class)
                 ->getForm();
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            //$updateCar = $form->getData();
+            //$em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return $this->redirectToRoute("app_list");
+        }
         return $this->render('admin/edit.html.twig', [
             'form_car'=> $form->createView(),
             'car'=>$car
+
         ]);
         
     }

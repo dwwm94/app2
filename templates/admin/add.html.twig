@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Ajout car{% endblock %}
+{% block body %}
+<h1>Ajout d'une voiture</h1>
+
+    {{ form_start(form)}}
+    {{ form_errors(form)}}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.marque )}}
+        </div>
+        <div class="col">
+            {{ form_row(form.modele )}}
+        </div>
+    </div>
+
+    {{ form_rest(form) }}
+
+    <button type="submit" class="btn btn-primary col-12 mt-2">Ajouter</button>
+
+    {{ form_end(form)}}
+
+    
+{% endblock %}
