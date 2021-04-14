@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Edit car{% endblock %}
+{% block body %}
+<h1>Edition d'une voiture N°: {{car.id}}</h1>
+    {# {{ form(form_car) }} #}
+    {{ form_start(form_car)}}
+    {{ form_errors(form_car)}}
+    {# {{ form_widget(form_car)}} #}
+    {# {{ form_label(form_car.marque, 'Marque de voiture') }}
+    {{ form_widget(form_car.marque, {'attr':{'class':'bg-primary'}}) }}
+    {{ form_errors(form_car.marque) }} #}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form_car.marque )}}
+        </div>
+        <div class="col">
+            {{ form_row(form_car.modele )}}
+        </div>
+    </div>
+
+    {{ form_rest(form_car) }}
+
+    <button type="submit" class="btn btn-warning col-12 mt-2">Modifier</button>
+
+    {{ form_end(form_car)}}
+
+    
+{% endblock %}
