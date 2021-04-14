@@ -6,6 +6,9 @@ use App\Entity\Auto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class AutoType extends AbstractType
 {
@@ -14,9 +17,9 @@ class AutoType extends AbstractType
         $builder
             ->add('marque')
             ->add('modele')
-            ->add('pays')
-            ->add('prix')
-            ->add('description')
+            ->add('pays', TextType::class, ['attr'=> ['placeholder'=>'Veuillez entrer le pays']])
+            ->add('prix', NumberType::class, ['attr'=> ['placeholder'=>'Veuillez entrer le prix']])
+            ->add('description', TextareaType::class, ['attr'=> ['placeholder'=>'Veuillez entrer la description']])
         ;
     }
 

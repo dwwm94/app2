@@ -28,6 +28,7 @@ class AdminController extends AbstractController
             $em->persist($car);
             $em->flush();
 
+            $this->addFlash('success', 'Voiture enrégistrée');
             return $this->redirectToRoute("app_list");
         }
 

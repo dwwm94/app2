@@ -4,14 +4,14 @@
 {% block body %}
 <h1>Ajout d'une voiture</h1>
 
-    {{ form_start(form)}}
+    {{ form_start(form, {'attr':{'novalidate':'novalidate'}})}}
     {{ form_errors(form)}}
     <div class="row">
         <div class="col">
-            {{ form_row(form.marque )}}
+            {{ form_row(form.marque, {'attr':{'placeholder':'Veuillez entrer la marque'}} )}}
         </div>
         <div class="col">
-            {{ form_row(form.modele )}}
+            {{ form_row(form.modele, {'attr':{'placeholder':'Veuillez entrer le modéle'}} )}}
         </div>
     </div>
 

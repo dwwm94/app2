@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AutoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AutoRepository::class)
@@ -24,7 +25,15 @@ class Auto
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Ce Champ est réquis")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 5,
+     *      minMessage = "Le modéle doit avoir au moins {{ limit }} charactères ",
+     *      maxMessage = "Le modèle doit avoir au plus {{ limit }} charactéres"
+     * )
      */
+     
     private $modele;
 
     /**
